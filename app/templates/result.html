@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Wynik analizy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Wynik analizy</h1>
+
+        <div class="result-box">
+            {% if prediction == 1 %}
+                <p>
+                    Model zaklasyfikował przypadek do klasy:
+                    <strong>obecność choroby</strong>.
+                </p>
+            {% else %}
+                <p>
+                    Model zaklasyfikował przypadek do klasy:
+                    <strong>brak choroby</strong>.
+                </p>
+            {% endif %}
+
+            <p>
+                Prawdopodobieństwo przypisania do klasy obecności choroby:
+                <strong>{{ probability }}%</strong>
+            </p>
+        </div>
+
+        <p class="warning">
+            Wynik ma charakter wyłącznie informacyjny i edukacyjny.
+            Nie stanowi diagnozy medycznej i nie zastępuje konsultacji lekarskiej.
+        </p>
+
+        <a class="back-link" href="/">Wprowadź nowe dane</a>
+    </div>
+</body>
+
+</html>

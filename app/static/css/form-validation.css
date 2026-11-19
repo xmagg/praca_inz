@@ -1,0 +1,12 @@
+.field-error {
+    margin: 6px 0 0;
+    color: #b42318;
+    font-size: 14px;
+    animation: none;
+    transition: none;
+}
+
+input[aria-invalid="true"],
+select[aria-invalid="true"] {
+    border-color: #b42318;
+}

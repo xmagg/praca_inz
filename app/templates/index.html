@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ocena ryzyka chorób sercowo-naczyniowych</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/form-validation.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Ocena ryzyka chorób sercowo-naczyniowych</h1>
+        <p class="description">
+            Wprowadź dane wymagane przez model.
+            Aplikacja ma charakter edukacyjny i nie stanowi diagnozy medycznej.
+        </p>
+
+        {% if error %}
+        <p class="error-message">
+            {{ error }}
+        </p>
+        {% endif %}
+
+        {% set form = form_data if form_data is defined else {} %}
+
+        <form method="post" action="/predict">
+            <div class="form-group">
+                <label for="age">Wiek:</label>
+                <input type="number" id="age" name="age" min="18" max="100" value="{{ form.get('age', '') }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="sex">Płeć:</label>
+                <select id="sex" name="sex" data-value="{{ form.get('sex', '0') }}" required>
+                    <option value="0">Kobieta</option>
+                    <option value="1">Mężczyzna</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="cp">Typ bólu w klatce piersiowej:</label>
+                <select id="cp" name="cp" data-value="{{ form.get('cp', '1') }}" required>
+                    <option value="1">Typowa dławica</option>
+                    <option value="2">Nietypowa dławica</option>
+                    <option value="3">Ból niedławicowy</option>
+                    <option value="4">Brak objawów</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="trestbps">Ciśnienie spoczynkowe:</label>
+                <input type="number" id="trestbps" name="trestbps" min="80" max="220" value="{{ form.get('trestbps', '') }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="chol">Cholesterol:</label>
+                <input type="number" id="chol" name="chol" min="100" max="600" value="{{ form.get('chol', '') }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="fbs">Poziom cukru na czczo powyżej 120 mg/dl:</label>
+                <select id="fbs" name="fbs" data-value="{{ form.get('fbs', '0') }}" required>
+                    <option value="0">Nie</option>
+                    <option value="1">Tak</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="restecg">Wynik spoczynkowego EKG:</label>
+                <select id="restecg" name="restecg" data-value="{{ form.get('restecg', '0') }}" required>
+                    <option value="0">Prawidłowy</option>
+                    <option value="1">Nieprawidłowość ST-T</option>
+                    <option value="2">Przerost lewej komory</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="thalach">Maksymalne osiągnięte tętno:</label>
+                <input type="number" id="thalach" name="thalach" min="60" max="220" value="{{ form.get('thalach', '') }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="exang">Dławica wywołana wysiłkiem:</label>
+                <select id="exang" name="exang" data-value="{{ form.get('exang', '0') }}" required>
+                    <option value="0">Nie</option>
+                    <option value="1">Tak</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="oldpeak">Obniżenie odcinka ST (oldpeak):</label>
+                <input type="number" id="oldpeak" name="oldpeak" min="0" max="7" step="0.1" value="{{ form.get('oldpeak', '') }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="slope">Nachylenie odcinka ST:</label>
+                <select id="slope" name="slope" data-value="{{ form.get('slope', '1') }}" required>
+                    <option value="1">Wznoszące</option>
+                    <option value="2">Płaskie</option>
+                    <option value="3">Opadające</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="ca">Liczba głównych naczyń:</label>
+                <select id="ca" name="ca" data-value="{{ form.get('ca', '0') }}" required>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="thal">Wynik badania thal:</label>
+                <select id="thal" name="thal" data-value="{{ form.get('thal', '3') }}" required>
+                    <option value="3">Prawidłowy</option>
+                    <option value="6">Stały ubytek</option>
+                    <option value="7">Odwracalny ubytek</option>
+                </select>
+            </div>
+
+            <button type="submit">Oblicz wynik</button>
+        </form>
+    </div>
+
+    <script>
+        document.querySelectorAll("select[data-value]").forEach((select) => {
+            const savedValue = select.dataset.value;
+            if (savedValue !== "") {
+                select.value = savedValue;
+            }
+        });
+    </script>
+
+    <script
+        src="{{ url_for('static', filename='js/form-validation.js') }}">
+    </script>
+</body>
+
+</html>

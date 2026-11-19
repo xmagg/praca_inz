@@ -1,0 +1,20 @@
+# Środowisko wirtualne
+.venv/
+
+# Pliki PyCharm
+.idea/
+
+# Pliki tymczasowe Pythona
+__pycache__/
+*.pyc
+*.pyo
+
+# Pliki testów
+.pytest_cache/
+
+# Dane wygenerowane lokalnie
+data/processed/
+
+# Pliki systemowe
+.DS_Store
+Thumbs.db
